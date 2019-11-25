@@ -10,5 +10,6 @@ alias zshrc='code ~/.zshrc "$ZSH" "$ZSH_CUSTOM"'
 
 alias hosts='code /etc/hosts'
 alias homesteadrc='code ~/code/homestead/Homestead.yaml /etc/hosts'
+alias homesteadssh='homestead ssh'
 alias a='php artisan'
 alias flow='git flow'
