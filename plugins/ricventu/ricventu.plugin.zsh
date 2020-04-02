@@ -1,6 +1,8 @@
 
 export NPM_PACKAGES="${HOME}/.npm-packages"
 export PATH="$NPM_PACKAGES/bin:/usr/local/bin:$PATH"
+export EDITOR=vim
+export COMPOSER_MEMORY_LIMIT=-1
 
 function homestead() {
     ( cd ~/code/github/homestead && vagrant $* )
