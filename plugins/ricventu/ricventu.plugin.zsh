@@ -4,6 +4,11 @@ export PATH="$NPM_PACKAGES/bin:/usr/local/bin:$PATH"
 export EDITOR=vim
 export COMPOSER_MEMORY_LIMIT=-1
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
 function homestead() {
     ( cd ~/code/github/homestead && vagrant $* )
 }
