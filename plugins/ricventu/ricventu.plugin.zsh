@@ -28,6 +28,6 @@ alias flow_fix_end='git flow hotfix finish'
 
 alias lara='code ~/code/laradock'
 function did() {
-    ( cd ~/code/dev-in-docker-php && docker-composer $* )
+    ( cd ~/code/dev-in-docker-php && docker-compose $* )
 }
 alias didrc='code ~/code/dev-in-docker-php'
