@@ -4,10 +4,24 @@ export PATH="$NPM_PACKAGES/bin:/usr/local/bin:$PATH"
 export EDITOR=vim
 export COMPOSER_MEMORY_LIMIT=-1
 
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+
+export PATH="/usr/local/opt/php@7.3/bin:$PATH"
+export PATH="/usr/local/opt/php@7.3/sbin:$PATH"
+
+#   export LDFLAGS="-L/usr/local/opt/php@7.3/lib"
+#   export CPPFLAGS="-I/usr/local/opt/php@7.3/include"
+
 
 function homestead() {
     ( cd ~/code/homestead && vagrant $* )
@@ -28,6 +42,9 @@ alias flow_fix_end='git flow hotfix finish'
 
 alias lara='code ~/code/laradock'
 function did() {
-    ( cd ~/code/dev-in-docker-php && docker-compose $* )
+    ( cd ~/code/did && ./docker-compose.sh $* )
 }
-alias didrc='code ~/code/dev-in-docker-php'
+function didphp() {
+    docker run --rm -v $(pwd):/workdir/ -w /workdir/ did_php-fpm php $*
+}
+alias didrc='code ~/code/did'
