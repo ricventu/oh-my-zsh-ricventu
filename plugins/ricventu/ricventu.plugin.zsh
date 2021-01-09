@@ -50,4 +50,4 @@ function didphp() {
 function didssh() {
     did exec php-fpm bash
 }
-alias didrc='code ~/code/did'
+alias didrc='code ~/code/dev-in-docker'
