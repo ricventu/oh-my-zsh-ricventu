@@ -42,9 +42,12 @@ alias flow_fix_end='git flow hotfix finish'
 
 alias lara='code ~/code/laradock'
 function did() {
-    ( cd ~/code/did && ./docker-compose.sh $* )
+    ( cd ~/code/dev-in-docker && ./docker-compose.sh $* )
 }
 function didphp() {
-    docker run --rm -v $(pwd):/workdir/ -w /workdir/ did_php-fpm php $*
+    did run --rm -v $(pwd):/workdir/ -w /workdir/ php-fpm php $*
+}
+function didssh() {
+    did exec php-fpm bash
 }
 alias didrc='code ~/code/did'
