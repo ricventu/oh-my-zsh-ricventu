@@ -45,9 +45,9 @@ function did() {
     ( cd ~/code/dev-in-docker && ./docker-compose.sh $* )
 }
 function didphp() {
-    did run --rm -v $(pwd):/workdir/ -w /workdir/ php-fpm php $*
+    did run --rm -v $(pwd):/workdir/ -w /workdir/ php7.3 php $*
 }
 function didssh() {
-    did exec php-fpm bash
+    did exec php7.3 bash
 }
-alias didrc='code ~/code/dev-in-docker'
+alias didrc='code ~/code/dev-in-docker /etc/hosts'
