@@ -40,6 +40,7 @@ function didphp() {
 function didssh() {
     did exec php7.3 bash
 }
+alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
 alias didlogms='tail -f ~/code/dev-in-docker/log/mysql/mysql.log'
 

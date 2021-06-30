@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 here="`dirname \"$0\"`"
 source "$here/plugins/ricventu/ricventu.plugin.zsh"
 didssh
