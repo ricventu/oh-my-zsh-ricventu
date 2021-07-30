@@ -16,12 +16,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# HOMESTEAD
-# function homestead() {
-#     ( cd ~/code/homestead && vagrant $* )
-# }
-# alias homesteadrc='code ~/code/homestead/Homestead.yaml /etc/hosts'
-# alias homesteadssh='homestead ssh'
 
 # heroku autocomplete:script zsh
 
@@ -44,3 +38,7 @@ alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
 alias didlogms='tail -f ~/code/dev-in-docker/log/mysql/mysql.log'
 
+function strooka() {
+    ( cd ~/code/strooka/master/strooka-docker && ./strooka $* )
+}
+alias strookalog='tail -f ~/code/strooka/master/strooka-docker/volumes/logs/mysql/general.log'
