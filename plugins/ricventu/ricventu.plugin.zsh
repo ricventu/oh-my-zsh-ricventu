@@ -26,19 +26,16 @@ alias a='php artisan'
 
 # ALIAS
 function did() {
-    ( cd ~/code/dev-in-docker && ./docker-compose.sh $* )
+    ( cd ~/code/dev-in-docker && ./did $* )
 }
 function didphp() {
-    did run --rm -v $(pwd):/workdir/ -w /workdir/ php7.3 php $*
+    did run --rm -v $(pwd):/workdir/ -w /workdir/ php7.3 php $@
 }
 function didssh() {
-    did exec php7.3 bash
+    did ssh
 }
 alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
-alias didlogms='tail -f ~/code/dev-in-docker/log/mysql/mysql.log'
-
 function strooka() {
-    ( cd ~/code/strooka/master/strooka-docker && ./strooka $* )
+    ( cd ~/code/strooka/master/strooka-docker && ./strooka $@ )
 }
-alias strookalog='tail -f ~/code/strooka/master/strooka-docker/volumes/logs/mysql/general.log'
