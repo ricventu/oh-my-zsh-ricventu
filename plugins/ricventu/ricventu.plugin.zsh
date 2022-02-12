@@ -17,9 +17,9 @@ alias zshrc='code ~/.zshrc "$ZSH" "$ZSH_CUSTOM"'
 alias a='php artisan'
 
 function composer() {
-    docker run --rm --interactive --tty \     
-    --volume $(pwd):/workdir \
-    composer
+    docker run --rm --interactive --tty \
+        --volume "$PWD":/app \
+        composer $@
 }
 
 function did() {
@@ -27,7 +27,7 @@ function did() {
 }
 
 function didphp() {
-    did run --rm -v $(pwd):/workdir/ -w /workdir/ php7.3 php $@
+    did run --rm -v "$PWD":/workdir/ -w /workdir/ php7.3 php $@
 }
 function didssh() {
     did ssh
