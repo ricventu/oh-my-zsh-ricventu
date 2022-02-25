@@ -22,6 +22,12 @@ function composer() {
         composer $@
 }
 
+function php() {
+    docker run --rm --interactive --tty \
+        --volume "$PWD":/app \
+        did_php81 php $@
+}
+
 function did() {
     ( cd ~/code/dev-in-docker && ./did $* )
 }
@@ -41,3 +47,4 @@ function strooka() {
 function mfb() {
     ( cd ~/code/myfactorybook/myfactorybook-docker && ./mfb $* )
 }
+
