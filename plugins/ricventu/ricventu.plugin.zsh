@@ -16,16 +16,11 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 alias zshrc='code ~/.zshrc "$ZSH" "$ZSH_CUSTOM"'
 alias a='php artisan'
 
-function composer() {
-    docker run --rm --interactive --tty \
-        --volume "$PWD":/app \
-        composer $@
-}
 
 function php() {
     docker run --rm --interactive --tty \
         --volume "$PWD":/app \
-        did_php81 php $@
+        did_php81 $@
 }
 
 function did() {
