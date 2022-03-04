@@ -20,7 +20,20 @@ alias a='php artisan'
 function php() {
     docker run --rm --interactive --tty \
         --volume "$PWD":/app \
-        did_php81 $@
+        did_php81 php $@
+}
+
+function composer() {
+    docker run --rm --interactive --tty \
+        --volume "$PWD":/app \
+        did_php81 composer $@
+}
+
+function phpserve() {
+    docker run --rm --interactive --tty \
+        --volume "$PWD":/app \
+        -p "8000:8000"
+        did_php81 php artisan serve
 }
 
 function did() {
