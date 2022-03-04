@@ -32,7 +32,7 @@ function composer() {
 function phpserve() {
     docker run --rm --interactive --tty \
         --volume "$PWD":/app \
-        -p "8000:8000"
+        -p "8000:8000" \
         did_php81 php artisan serve
 }
 
