@@ -14,23 +14,36 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 # heroku autocomplete:script zsh
 
 alias zshrc='code ~/.zshrc "$ZSH" "$ZSH_CUSTOM"'
-alias a='php artisan'
-
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
 function composer() {
     docker run --rm --interactive --tty \
-        --volume $PWD:/app \
-        --user $(id -u):$(id -g) \
-        composer $@
+            --volume "$PWD":/app \
+            --user $(id -u):$(id -g) \
+            docker-brew:php81 composer $@
+}
+
+function phpbash() {
+    docker run --rm --interactive --tty \
+            --volume "$PWD":/app \
+            docker-brew:php81 bash
 }
 
 function php() {
     docker run --rm --interactive --tty \
-        --volume $PWD:/app \
-        --user $(id -u):$(id -g) \
-        composer php $@
+            --volume "$PWD":/app \
+            docker-brew:php81 php $@
 }
 
+function artisanserve() {
+    PORT=$1
+    [ -n $PORT ] || PORT=8000
+    docker run --rm --interactive --tty \
+            --volume "$PWD":/app \
+            --user $(id -u):$(id -g) \
+            -p "$PORT:8000" \
+            docker-brew:php81 php artisan serve --host 0.0.0.0
+}
 
 function did() {
     ( cd ~/code/dev-in-docker && ./did $* )
