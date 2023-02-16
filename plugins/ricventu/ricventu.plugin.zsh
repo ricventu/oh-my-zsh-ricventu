@@ -15,24 +15,26 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 
 alias zshrc='code ~/.zshrc "$ZSH" "$ZSH_CUSTOM"'
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+alias a='sail artisan'
+alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
 function composer() {
     docker run --rm --interactive --tty \
             --volume "$PWD":/app \
             --user $(id -u):$(id -g) \
-            docker-brew:php81 composer $@
+            dockerbrew:php81 composer $@
 }
 
 function phpbash() {
     docker run --rm --interactive --tty \
             --volume "$PWD":/app \
-            docker-brew:php81 bash
+            dockerbrew:php81 bash
 }
 
 function php() {
     docker run --rm --interactive --tty \
             --volume "$PWD":/app \
-            docker-brew:php81 php $@
+            dockerbrew:php81 php $@
 }
 
 function artisanserve() {
@@ -42,7 +44,7 @@ function artisanserve() {
             --volume "$PWD":/app \
             --user $(id -u):$(id -g) \
             -p "$PORT:8000" \
-            docker-brew:php81 php artisan serve --host 0.0.0.0
+            dockerbrew:php81 php artisan serve --host 0.0.0.0
 }
 
 function did() {
@@ -55,13 +57,8 @@ function didphp() {
 function didssh() {
     did ssh
 }
-alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
-function strooka() {
-    ( cd ~/code/strooka/master/strooka-docker && ./strooka $@ )
+function facotybook() {
+    cd ~/code/myfactorybook/myfactorybook-api && make
+    cd ~/code/myfactorybook/myfactorybook-website && yarn dev
 }
-
-function mfb() {
-    ( cd ~/code/myfactorybook/myfactorybook-docker && ./mfb $* )
-}
-
