@@ -58,7 +58,7 @@ function didssh() {
     did ssh
 }
 
-function facotybook() {
+function factorybook() {
     cd ~/code/myfactorybook/myfactorybook-api && make
     cd ~/code/myfactorybook/myfactorybook-website && yarn dev
 }
