@@ -11,8 +11,6 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
 export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 
-# heroku autocomplete:script zsh
-
 alias zshrc='code ~/.zshrc "$ZSH" "$ZSH_CUSTOM"'
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias a='sail artisan'
@@ -22,43 +20,11 @@ function composer() {
     docker run --rm --interactive --tty \
             --volume "$PWD":/app \
             --user $(id -u):$(id -g) \
-            dockerbrew:php81 composer $@
+            composer composer $@
 }
 
-function phpbash() {
-    docker run --rm --interactive --tty \
-            --volume "$PWD":/app \
-            dockerbrew:php81 bash
-}
-
-function php() {
-    docker run --rm --interactive --tty \
-            --volume "$PWD":/app \
-            dockerbrew:php81 php $@
-}
-
-function artisanserve() {
-    PORT=$1
-    [ -n $PORT ] || PORT=8000
-    docker run --rm --interactive --tty \
-            --volume "$PWD":/app \
-            --user $(id -u):$(id -g) \
-            -p "$PORT:8000" \
-            dockerbrew:php81 php artisan serve --host 0.0.0.0
-}
-
-function did() {
-    ( cd ~/code/dev-in-docker && ./did $* )
-}
-
-function didphp() {
-    did run --rm -v "$PWD":/workdir/ -w /workdir/ php7.3 php $@
-}
-function didssh() {
-    did ssh
-}
 
 function factorybook() {
-    cd ~/code/myfactorybook/myfactorybook-api && make
-    cd ~/code/myfactorybook/myfactorybook-website && yarn dev
+    cd ~/code/factorybook/myfactorybook-api && make
+    cd ~/code/factorybook/myfactorybook-website && yarn dev
 }
