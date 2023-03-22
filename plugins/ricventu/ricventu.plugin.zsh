@@ -23,8 +23,16 @@ function composer() {
             composer composer $@
 }
 
+function php() {
+    docker run --rm --interactive --tty \
+        --user $(id -u):$(id -g) \
+        --volume "$(pwd)":/app \
+        -w /app \
+        php:8.2-cli-alpine php $@
+}
+
 
 function factorybook() {
-    cd ~/code/factorybook/myfactorybook-api && make
+    # cd ~/code/factorybook/myfactorybook-api && make
     cd ~/code/factorybook/myfactorybook-website && yarn dev
 }
