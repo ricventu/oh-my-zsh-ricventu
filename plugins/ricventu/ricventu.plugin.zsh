@@ -31,6 +31,21 @@ function php() {
         php:8.2-cli-alpine php $@
 }
 
+function phpserve() {
+    docker run --rm --interactive --tty \
+        --user $(id -u):$(id -g) \
+        --volume "$(pwd)":/app \
+        -w /app \
+        -p '81:8000' \
+        php:8.2-cli-alpine php artisan serve --host 0.0.0.0
+}
+
+function gitprune-local() {
+    git branch --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' | xargs git branch -d
+}
+function gitprune-remote() {
+    git branch -r --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' | xargs -n 1 git push -d origin
+}
 
 function factorybook() {
     # cd ~/code/factorybook/myfactorybook-api && make
