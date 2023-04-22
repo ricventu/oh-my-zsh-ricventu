@@ -16,28 +16,33 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias a='sail artisan'
 alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
-function composer() {
-    docker run --rm --interactive --tty \
-            --volume "$PWD":/app \
-            --user $(id -u):$(id -g) \
-            composer composer $@
-}
-
 function php() {
     docker run --rm --interactive --tty \
-        --user $(id -u):$(id -g) \
         --volume "$(pwd)":/app \
         -w /app \
-        php:8.2-cli-alpine php $@
+        docker-apps:php-8.2 php $@
+}
+
+function composer() {
+     docker run --rm --interactive --tty \
+        --volume "$(pwd)":/app \
+        -w /app \
+        docker-apps:php-8.2 composer $@
+}
+
+function phpsh() {
+    docker run --rm --interactive --tty \
+        --volume "$(pwd)":/app \
+        -w /app \
+        docker-apps:php-8.2 bash
 }
 
 function phpserve() {
     docker run --rm --interactive --tty \
-        --user $(id -u):$(id -g) \
         --volume "$(pwd)":/app \
         -w /app \
-        -p '81:8000' \
-        php:8.2-cli-alpine php artisan serve --host 0.0.0.0
+        -p '8000:8000' \
+        docker-apps:php-8.2 php artisan serve --host 0.0.0.0
 }
 
 function gitprune-local() {
