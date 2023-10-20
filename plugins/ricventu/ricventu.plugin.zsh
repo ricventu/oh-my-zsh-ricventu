@@ -16,6 +16,28 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 alias a='sail artisan'
 alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
+export PATH="/Users/ricventu/Library/Application Support/JetBrains/Toolbox/scripts:$PATH"
+
+function cargo() {
+    docker run --rm --interactive --tty \
+        --volume "$(pwd)":/app \
+        -w /app \
+        rust:latest cargo $@
+}
+function cargosh() {
+    docker run --rm --interactive --tty \
+        --volume "$(pwd)":/app \
+        -w /app \
+        rust:latest bash $@
+}
+
+function python() {
+    docker run --rm --interactive --tty \
+        --volume "$(pwd)":/app \
+        -w /app \
+        python:3.10.11-bullseye python $@
+}
+
 function php() {
     docker run --rm --interactive --tty \
         --volume "$(pwd)":/app \
@@ -45,10 +67,16 @@ function phpserve() {
         docker-apps:php-8.2 php artisan serve --host 0.0.0.0
 }
 
-function gitprune-local() {
+function git-merged() {
+    git branch --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' 
+}
+function git-merged-prune() {
     git branch --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' | xargs git branch -d
 }
-function gitprune-remote() {
+function git-remote-merged() {
+    git branch -r --merged | grep -v  "master\|main\|develop" | sed 's/origin\///'
+}
+function git-remote-merged-prune() {
     git branch -r --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' | xargs -n 1 git push -d origin
 }
 
