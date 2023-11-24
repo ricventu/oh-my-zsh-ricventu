@@ -38,6 +38,22 @@ function python() {
         python:3.10.11-bullseye python $@
 }
 
+function php81() {
+    docker run --rm --interactive --tty \
+        --user $(id -u):$(id -g) \
+        --volume "$(pwd)":/app \
+        -w /app \
+        docker-apps:php-8.1 php $@
+}
+
+function php81ssh() {
+    docker run --rm --interactive --tty \
+        --user $(id -u):$(id -g) \
+        --volume "$(pwd)":/app \
+        -w /app \
+        docker-apps:php-8.1 bash $@
+}
+
 function php() {
     docker run --rm --interactive --tty \
         --volume "$(pwd)":/app \
@@ -49,7 +65,7 @@ function composer() {
      docker run --rm --interactive --tty \
         --volume "$(pwd)":/app \
         -w /app \
-        docker-apps:php-8.2 composer $@
+        composer composer $@
 }
 
 function phpsh() {
@@ -80,7 +96,14 @@ function git-remote-merged-prune() {
     git branch -r --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' | xargs -n 1 git push -d origin
 }
 
+function buildpack() {
+    # buildpack build my/image --builder heroku/builder:20
+    docker run --rm \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $PWD:/workspace -w /workspace \
+        buildpacksio/pack:latest $@
+}
+
 function factorybook() {
-    # cd ~/code/factorybook/myfactorybook-api && make
     cd ~/code/factorybook/myfactorybook-website && yarn dev
 }
