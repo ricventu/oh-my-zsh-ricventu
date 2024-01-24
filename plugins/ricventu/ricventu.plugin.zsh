@@ -4,7 +4,7 @@ export EDITOR=vim
 export COMPOSER_MEMORY_LIMIT=-1
 
 # HOMEBREW
-# brew install ncdu fzf bat exa
+# brew install fzf bat exa
 
 export HOMEBREW_PREFIX="/opt/homebrew";
 export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
@@ -13,11 +13,13 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
 export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 
+eval $(thefuck --alias)
+
 alias cat='bat'
 alias ls='exa --group-directories-first'
-alias ll='exa -l --group-directories-first'
-alias l='exa -l --group-directories-first'
-alias la='exa -la --group-directories-first'
+alias ll='exa -lg --group-directories-first'
+alias l='exa -lg --group-directories-first'
+alias la='exa -lag --group-directories-first'
 alias f='fzf'
 alias fzf='fzf --preview "bat --color=always --style=header,grid --line-range :500 {}"'
 
