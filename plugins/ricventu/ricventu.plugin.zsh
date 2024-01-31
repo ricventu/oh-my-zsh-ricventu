@@ -105,16 +105,16 @@ function phpserve() {
 }
 
 function git-merged() {
-    git branch --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' 
+    git branch --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///' 
 }
 function git-merged-prune() {
-    git branch --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' | xargs git branch -d
+    git branch --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///' | xargs git branch -d
 }
 function git-remote-merged() {
-    git branch -r --merged | grep -v  "master\|main\|develop" | sed 's/origin\///'
+    git branch -r --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///'
 }
 function git-remote-merged-prune() {
-    git branch -r --merged | grep -v  "master\|main\|develop" | sed 's/origin\///' | xargs -n 1 git push -d origin
+    git branch -r --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///' | xargs -n 1 git push -d origin
 }
 
 function buildpack() {
