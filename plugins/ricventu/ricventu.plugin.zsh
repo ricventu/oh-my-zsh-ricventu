@@ -13,7 +13,7 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
 export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 
-eval $(thefuck --alias)
+# eval $(thefuck --alias)
 
 alias cat='bat'
 alias ls='exa --group-directories-first'
@@ -30,6 +30,7 @@ alias didrc='code ~/code/dev-in-docker /etc/hosts'
 alias docker-stop-all='dsta'
 
 export PATH="/Users/ricventu/Library/Application Support/JetBrains/Toolbox/scripts:$PATH"
+export PATH="/Users/ricventu/Applications/oh-my-zsh-ricventu/utils:$PATH"
 
 function cargo() {
     docker run --rm --interactive --tty \
@@ -104,19 +105,6 @@ function phpserve() {
         docker-apps:php-8.2 php artisan serve --host 0.0.0.0
 }
 
-function git-merged() {
-    git branch --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///' 
-}
-function git-merged-prune() {
-    git branch --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///' | xargs git branch -d
-}
-function git-remote-merged() {
-    git branch -r --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///'
-}
-function git-remote-merged-prune() {
-    git branch -r --merged | grep -v  "master\|main\|develop\|staging" | sed 's/origin\///' | xargs -n 1 git push -d origin
-}
-
 function buildpack() {
     # buildpack build my/image --builder heroku/builder:20
     # buildpack build "my/image:latest" --builder 'heroku/builder:22'  --buildpack 'heroku/php' --buildpack 'heroku/nodejs'
@@ -126,6 +114,24 @@ function buildpack() {
         buildpacksio/pack:latest $@
 }
 
-function factorybook() {
-    cd ~/code/factorybook/myfactorybook-website && yarn dev
+function docker_php_get_loaded_extensions() {
+    docker run --rm -it $1 php -r "print_r(implode(PHP_EOL,get_loaded_extensions()));"
+}
+
+function docker_php_get_required_extensions() {
+    docker run --rm -v "$PWD":/app -w /app $1 composer show --tree | grep -o "ext-.* " | sort | uniq 
+}
+
+function docker_php_get_required_extensions_not_installed() {
+    IMAGE=$1
+    LOADED=$(docker_php_get_loaded_extensions $IMAGE)
+    REQUIRED=$(docker_php_get_required_extensions $IMAGE)
+
+    MISSING=()
+    while read -r line; do
+    if ! grep -q -i "${line:4}" <<< "$LOADED"; then
+        MISSING+=("$line")
+    fi
+    done <<< "$REQUIRED"
+    printf '%s\n' "${MISSING[@]}"
 }
