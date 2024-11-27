@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# List of branches to exclude from deletion
+# Default list of branches to exclude from deletion
 protected_branches="master main develop staging"
 
 # Function to filter branches, excluding the protected ones
@@ -16,6 +16,17 @@ filter_branches() {
     [[ -n $skip ]] || echo $branch
   done
 }
+
+# Parse command-line options for additional excluded branches
+while getopts "e:" opt; do
+  case $opt in
+    e) protected_branches+=" $OPTARG"
+       ;;
+    \?) echo "Invalid option: -$OPTARG" >&2
+        exit 1
+       ;;
+  esac
+done
 
 # Check if we are in a git repository
 if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
