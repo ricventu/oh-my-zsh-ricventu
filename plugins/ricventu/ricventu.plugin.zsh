@@ -21,7 +21,6 @@ alias fzf='fzf --preview "bat --color=always --style=header,grid --line-range :5
 
 alias zshrc='code ~/.zshrc "$ZSH" "$ZSH_CUSTOM"'
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
-alias didrc='code ~/code/dev-in-docker /etc/hosts'
 
 alias docker-stop-all='dsta'
 
