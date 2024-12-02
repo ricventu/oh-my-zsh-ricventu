@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Verifica se è stato passato un argomento
+if [ -z "$1" ]; then
+  echo "Usage: $0 <branch-name>"
+  exit 1
+fi
+
+TARGET_BRANCH=$1
+
+# Fetch del branch specificato
+git fetch origin $TARGET_BRANCH
+
+# Verifica se il fetch è andato a buon fine
+if [ $? -ne 0 ]; then
+  echo "Errore durante il fetch del branch $TARGET_BRANCH"
+  exit 1
+fi
+
+# Salva il nome del branch attuale
+CURRENT_BRANCH=$(git branch --show-current)
+
+# Checkout del branch specificato
+git checkout $TARGET_BRANCH
+if [ $? -ne 0 ]; then
+  echo "Errore durante il checkout del branch $TARGET_BRANCH"
+  exit 1
+fi
+
+# Merge del branch attuale sul branch specificato
+git merge $CURRENT_BRANCH
+if [ $? -ne 0 ]; then
+  echo "Errore durante il merge del branch $CURRENT_BRANCH sul branch $TARGET_BRANCH"
+  exit 1
+fi
+
+# Push del branch
+git push origin $TARGET_BRANCH
+if [ $? -ne 0 ]; then
+  echo "Errore durante il push del branch $TARGET_BRANCH"
+  exit 1
+fi
+
+# Torna al branch originale
+git checkout $CURRENT_BRANCH
+
+echo "Operazione completata con successo!"

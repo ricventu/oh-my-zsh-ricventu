@@ -27,18 +27,28 @@ alias docker-stop-all='dsta'
 export PATH="/Users/ricventu/Library/Application Support/JetBrains/Toolbox/scripts:$PATH"
 export PATH="/Users/ricventu/Applications/oh-my-zsh-ricventu/utils:$PATH"
 
-function php() {
+function laravelsail() {
     docker run --rm --interactive --tty \
+        --volume composer-cache:/root/.composer \
         --volume "$(pwd)":/app \
         -w /app \
-        laravelsail/php83-composer:latest php $@
+        laravelsail/php83-composer:latest $@
+}
+
+function php() {
+    laravelsail php $@
+}
+
+function laravel() {
+    laravelsail laravel $@
 }
 
 function composer() {
-    docker run --rm --interactive --tty \
-        --volume "$(pwd)":/app \
-        -w /app \
-        laravelsail/php83-composer:latest composer $@
+    laravelsail composer $@
+}
+
+function phpbash() {
+    laravelsail bash $@
 }
 
 function cargo() {
