@@ -2,46 +2,42 @@
 
 # Verifica se è stato passato un argomento
 if [ -z "$1" ]; then
-  echo "Usage: $0 <branch-name>"
+  echo "Errore: Devi specificare il branch di destinazione."
   exit 1
 fi
 
-TARGET_BRANCH=$1
-
-# Fetch del branch specificato
-git fetch origin $TARGET_BRANCH
-
-# Verifica se il fetch è andato a buon fine
-if [ $? -ne 0 ]; then
-  echo "Errore durante il fetch del branch $TARGET_BRANCH"
-  exit 1
-fi
-
-# Salva il nome del branch attuale
+DEST_BRANCH=$1
 CURRENT_BRANCH=$(git branch --show-current)
 
-# Checkout del branch specificato
-git checkout $TARGET_BRANCH
-if [ $? -ne 0 ]; then
-  echo "Errore durante il checkout del branch $TARGET_BRANCH"
-  exit 1
-fi
+# Aggiorna il branch di destinazione
+git fetch origin
+git checkout $DEST_BRANCH
+git pull origin $DEST_BRANCH
 
-# Merge del branch attuale sul branch specificato
+# Esegue il merge del branch attuale nel branch di destinazione
 git merge $CURRENT_BRANCH
+
+# Controlla se ci sono conflitti
 if [ $? -ne 0 ]; then
-  echo "Errore durante il merge del branch $CURRENT_BRANCH sul branch $TARGET_BRANCH"
+  echo "Errore: Ci sono conflitti nel merge. Risolvili e riprova."
   exit 1
 fi
 
-# Push del branch
-git push origin $TARGET_BRANCH
-if [ $? -ne 0 ]; then
-  echo "Errore durante il push del branch $TARGET_BRANCH"
-  exit 1
+# Chiede se fare il push del branch di destinazione
+read -p "Vuoi fare il push del branch '$DEST_BRANCH'? (S/n): " push_response
+push_response=${push_response:-S}
+
+if [[ "$push_response" =~ ^[sS]$ ]]; then
+  git push origin $DEST_BRANCH
 fi
 
-# Torna al branch originale
-git checkout $CURRENT_BRANCH
+# Chiede se eliminare il branch locale e remoto del branch mergiato
+read -p "Vuoi eliminare il branch locale e remoto '$CURRENT_BRANCH'? (s/N): " delete_response
+delete_response=${delete_response:-N}
 
-echo "Operazione completata con successo!"
+if [[ "$delete_response" =~ ^[sS]$ ]]; then
+  git branch -d $CURRENT_BRANCH
+  git push origin --delete $CURRENT_BRANCH
+fi
+
+echo "Operazione completata."
