@@ -38,6 +38,13 @@ delete_response=${delete_response:-N}
 if [[ "$delete_response" =~ ^[sS]$ ]]; then
   git branch -d $CURRENT_BRANCH
   git push origin --delete $CURRENT_BRANCH
+else
+
+  read -p "Vuoi tornare al branch '$CURRENT_BRANCH'? (S/n): " checkout_response
+  checkout_response=${checkout_response:-S}
+  if [[ "$checkout_response" =~ ^[sS]$ ]]; then
+    git checkout $CURRENT_BRANCH
+  fi
 fi
 
 echo "Operazione completata."
